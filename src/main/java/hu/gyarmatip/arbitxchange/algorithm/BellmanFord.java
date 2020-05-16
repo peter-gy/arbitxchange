@@ -1,6 +1,7 @@
 package hu.gyarmatip.arbitxchange.algorithm;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class BellmanFord {
@@ -14,7 +15,11 @@ public class BellmanFord {
         this.edgeList = edgeList;
     }
 
-    public void executeAlgorithm(Vertex sourceVertex) {
+    public void executeAlgorithm() {
+        executeAlgorithm(vertexList.get(0));
+    }
+
+    private void executeAlgorithm(Vertex sourceVertex) {
 
         sourceVertex.setMinDistance(0);
 
@@ -23,7 +28,7 @@ public class BellmanFord {
                 if (edge.getStartVertex().getMinDistance() == Double.MAX_VALUE) continue;
 
                 double newDistance = edge.getStartVertex().getMinDistance() + edge.getWeight();
-                if (newDistance < edge.getStartVertex().getMinDistance()) {
+                if (newDistance < edge.getTargetVertex().getMinDistance()) {
                     edge.getTargetVertex().setMinDistance(newDistance);
                     edge.getTargetVertex().setPrevVertex(edge.getStartVertex());
                 }
@@ -34,7 +39,7 @@ public class BellmanFord {
             if (edge.getStartVertex().getMinDistance() == Double.MAX_VALUE) continue;
             if (hasCycle(edge)) {
                 Vertex vertex = edge.getStartVertex();
-                while (!vertex.equals(edge.getTargetVertex())) {
+                while (cycleList.size() == new HashSet<>(cycleList).size()) {
                     cycleList.add(vertex);
                     vertex = vertex.getPrevVertex();
                 }
@@ -50,7 +55,7 @@ public class BellmanFord {
     }
 
     public void printCycle() {
-        if (cycleList != null) {
+        if (!cycleList.isEmpty()) {
             System.out.println("Cycle Found");
             cycleList.forEach(System.out::println);
         } else {

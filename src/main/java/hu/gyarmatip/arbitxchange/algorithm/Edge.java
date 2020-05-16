@@ -1,10 +1,15 @@
 package hu.gyarmatip.arbitxchange.algorithm;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.StringJoiner;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class Edge {
 
     private Vertex startVertex;
